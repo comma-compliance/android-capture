@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Comma Archiver</string>
+
+    <string name="restriction_backend_url_title">Backend URL</string>
+    <string name="restriction_backend_url_desc">Base URL of the archival ingest server.</string>
+    <string name="restriction_enrollment_token_title">Enrollment token</string>
+    <string name="restriction_enrollment_token_desc">One-time token exchanged for a device archive token on first run.</string>
+    <string name="restriction_backfill_days_title">Backfill days</string>
+    <string name="restriction_backfill_days_desc">How many days of existing messages to capture on first run. 0 = forward only.</string>
+
+    <!-- Foreground-service notification: honest, never hidden. Tells the user the
+         device is archiving messages for compliance, and for which organization. -->
+    <string name="archival_notification_channel_name">Message archival</string>
+    <string name="archival_notification_title">Archiving messages for compliance</string>
+    <string name="archival_notification_text">Capturing messages for your organization’s compliance archive.</string>
+    <string name="archival_notification_text_org">Archiving messages for compliance – %1$s</string>
+
+    <!-- Onboarding / connect screen -->
+    <string name="connect_title">Connect to your organization</string>
+    <string name="connect_intro">This app archives the messages on this device for your organization’s compliance records. To begin, sign in to your organization.</string>
+    <string name="connect_org_url_label">Organization URL</string>
+    <string name="connect_org_url_hint">https://your-org.example.com</string>
+    <string name="connect_button">Sign in to your organization</string>
+    <string name="connect_signup_hint">Don’t have an organization yet? Sign up on the web, then return here to connect this device.</string>
+    <string name="connect_managed_intro">This device is managed by your organization. Setup will complete automatically; no sign-in is required.</string>
+    <string name="connect_progress_auth">Opening secure sign-in…</string>
+    <string name="connect_progress_registering">Registering this device…</string>
+
+    <!-- Offline first-run -->
+    <string name="offline_message">Signing in the first time requires a connection. This screen will continue automatically once you’re back online.</string>
+
+    <!-- Errors (plain language) -->
+    <string name="error_feature_disabled">Message archiving isn’t enabled for your organization yet. Ask your administrator to turn it on, then try again.</string>
+    <string name="error_registration_expired">That took too long and the sign-in expired. Please try connecting again.</string>
+    <string name="error_unauthorized">Sign-in didn’t complete. Please try connecting again.</string>
+    <string name="error_network">Couldn’t reach your organization. Check your connection and try again.</string>
+    <string name="error_invalid_url">That doesn’t look like a valid organization address. It should start with https://</string>
+    <string name="error_untrusted">Your organization’s sign-in configuration couldn’t be verified. Double-check the address with your administrator.</string>
+
+    <!-- Connected / Status & About -->
+    <string name="status_title">Status</string>
+    <string name="status_connected">Connected</string>
+    <string name="status_connected_to">Archiving for %1$s</string>
+    <string name="status_connected_generic">Archiving for your organization</string>
+    <string name="status_device_id">Device ID</string>
+    <string name="status_last_sync">Last sync</string>
+    <string name="status_last_sync_never">Not yet</string>
+    <string name="status_pending">Pending uploads</string>
+    <string name="status_app_version">App version</string>
+    <string name="status_self_test">Run a self-test</string>
+    <string name="status_self_test_running">Self-test running…</string>
+    <string name="status_self_test_ok">Self-test passed: capture and upload are working.</string>
+    <string name="status_self_test_fail">Self-test couldn’t complete. Check your connection and that archiving is enabled.</string>
+    <string name="status_disconnect">Disconnect this device</string>
+    <string name="status_connectivity">Connectivity</string>
+    <string name="status_online">Online</string>
+    <string name="status_offline">Offline – capture continues; uploads resume when back online</string>
+    <string name="status_auth">Sign-in</string>
+    <string name="status_auth_ok">Signed in</string>
+    <string name="status_auth_missing">Not signed in</string>
+    <string name="status_last_check">Last checked</string>
+    <string name="status_storage_warning">Storage is full. Captured messages are safe and will upload once space is freed; nothing has been discarded.</string>
+    <string name="status_queue_unavailable">The message queue could not be opened, so archiving is paused on this device. Nothing captured so far has been discarded. Restart the app; if this keeps showing, contact your administrator.</string>
+
+    <!-- Permissions / privacy rationale, shown BEFORE requesting SMS access -->
+    <string name="rationale_title">What this app captures</string>
+    <string name="rationale_body">To keep your organization’s compliance archive, this app reads the SMS, MMS, and RCS messages stored on this device and securely sends them to your organization’s archive.\n\nWhat is captured: message text, participants, timestamps, and attachments.\n\nYour organization administers this archive. Messages are encrypted on this device before they are sent. The app does not show ads and does not sell your data.\n\nA permanent notification will let you know whenever archiving is active.</string>
+    <string name="rationale_grant_button">Allow message access</string>
+    <string name="rationale_privacy_summary">Reads messages on this device and sends them, encrypted, to your organization’s compliance archive. Administered by your organization.</string>
+</resources>

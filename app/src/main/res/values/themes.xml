@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Material Components DayNight theme so the onboarding/status screens use
+         standard Material widgets (buttons, text fields). NoActionBar keeps the
+         simple, single-purpose screens uncluttered. Colors track the Comma
+         Compliance brand: brand-green primary, white-on-green, ink neutrals. -->
+    <style name="Theme.CommaArchiver" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/brand_green</item>
+        <item name="colorPrimaryVariant">@color/brand_green_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/brand_green_variant</item>
+        <item name="colorSecondaryVariant">@color/brand_green_dark</item>
+        <item name="colorOnSecondary">@color/white</item>
+    </style>
+</resources>

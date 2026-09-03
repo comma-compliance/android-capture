@@ -1,0 +1,43 @@
+{
+  "_comment": "Inbound MMS group. Membership: thread type=1, recipient_ids='2 3' -> canonical numbers; per-message addr has From(137)+To(151)+Cc(130). Cc carries the extra member.",
+  "provider_id": "mms:8",
+  "event_type": "received",
+  "event_ts": 1779663378000,
+  "body_hash": "eb1ba19dfbf10d76ab924ed88aa448fb096553fb5c94f67b4a59f579674b106c",
+  "payload": {
+    "source": "mms",
+    "provider_id": "mms:8",
+    "thread_id": "3",
+    "thread_type": "group",
+    "direction": "incoming",
+    "timestamp_ms": 1779663378000,
+    "from": "+15555550111",
+    "to": ["+15555550100"],
+    "cc": ["+15555550122"],
+    "participants": ["+15555550111", "+15555550100", "+15555550122"],
+    "body": "Group pic for everyone",
+    "attachments": [
+      {
+        "part_id": "10",
+        "part_uri": "content://mms/part/10",
+        "content_type": "image/jpeg",
+        "filename": "image000001.jpg",
+        "size_bytes": 417178,
+        "status": "pending"
+      }
+    ],
+    "is_rcs": false,
+    "creator": "com.google.android.apps.messaging"
+  },
+  "expected": {
+    "message_type": "inbound",
+    "platform": "android_messages",
+    "thread_external_id": "3",
+    "thread_is_group": true,
+    "sender": "+15555550111",
+    "recipients": ["+15555550100", "+15555550122"],
+    "body": "Group pic for everyone",
+    "sent_at_ms": 1779663378000,
+    "has_attachments": true
+  }
+}

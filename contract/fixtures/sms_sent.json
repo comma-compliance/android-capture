@@ -1,0 +1,33 @@
+{
+  "_comment": "Outbound SMS. Direction from sms.type=2; date_sent=0 and protocol/service_center null on sends.",
+  "provider_id": "sms:3",
+  "event_type": "sent",
+  "event_ts": 1779656130345,
+  "body_hash": "b58ce24a5f7038be28bffd61cdd147fc72d2ec7cd92f84414c8e90ad7793506c",
+  "payload": {
+    "source": "sms",
+    "provider_id": "sms:3",
+    "thread_id": "2",
+    "thread_type": "one_to_one",
+    "direction": "outgoing",
+    "timestamp_ms": 1779656130345,
+    "from": "+15555550100",
+    "to": ["+15555550111"],
+    "cc": [],
+    "participants": ["+15555550100", "+15555550111"],
+    "body": "Back atcha",
+    "attachments": [],
+    "is_rcs": false,
+    "creator": "com.google.android.apps.messaging"
+  },
+  "expected": {
+    "message_type": "outbound",
+    "platform": "android_messages",
+    "thread_external_id": "2",
+    "sender": "+15555550100",
+    "recipients": ["+15555550111"],
+    "body": "Back atcha",
+    "sent_at_ms": 1779656130345,
+    "has_attachments": false
+  }
+}

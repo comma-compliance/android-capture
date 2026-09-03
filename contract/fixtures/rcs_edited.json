@@ -1,0 +1,36 @@
+{
+  "_comment": "RCS edit. Surfaces as a NEW content://mms row (mms:17) with the edited body; the original (mms:16) is retained unchanged. The edit row INHERITS the original's date/date_sent (1779669371000) - that inherited timestamp + same thread + same sender is the only signal to correlate it to the original. classifier rule: new provider_id whose (thread_id+sender+event_ts) match a prior row, with a different body_hash => edited.",
+  "provider_id": "mms:17",
+  "event_type": "edited",
+  "event_ts": 1779669371000,
+  "body_hash": "60b9809d58d015e0ec3be32e73b606ba0a157ddb9978d6a78ac98371c9104d5f",
+  "payload": {
+    "source": "rcs",
+    "provider_id": "mms:17",
+    "edits_provider_id": "mms:16",
+    "thread_id": "2",
+    "thread_type": "one_to_one",
+    "direction": "incoming",
+    "timestamp_ms": 1779669371000,
+    "from": "+15555550111",
+    "to": ["+15555550100"],
+    "cc": [],
+    "participants": ["+15555550111", "+15555550100"],
+    "body": "Edit this #4 - EDITED",
+    "attachments": [],
+    "is_rcs": true,
+    "creator": "com.google.android.apps.messaging"
+  },
+  "expected": {
+    "message_type": "inbound",
+    "platform": "android_messages",
+    "thread_external_id": "2",
+    "sender": "+15555550111",
+    "recipients": ["+15555550100"],
+    "body": "Edit this #4 - EDITED",
+    "edits_existing_message": true,
+    "correlation": "matched to the prior message by thread_external_id + sender + sent_at_ms; processor updates that message body rather than creating a new one",
+    "sent_at_ms": 1779669371000,
+    "is_rcs": true
+  }
+}

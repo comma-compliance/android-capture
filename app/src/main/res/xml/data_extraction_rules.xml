@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    The archiver holds long-lived device credentials (archive_token, the device
+    keypair) in EncryptedSharedPreferences. Those must never leave the device, so
+    both cloud backup and device-to-device transfer exclude everything. This is the
+    Android 12+ counterpart to android:allowBackup="false".
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="root" path="." />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="root" path="." />
+    </device-transfer>
+</data-extraction-rules>

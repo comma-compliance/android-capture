@@ -1,0 +1,4 @@
+# Screenshots captured during the end-to-end archival test run live here.
+# See ../e2e-archival-runbook.md section 6 (trust/visual check) for the
+# expected files: 01-launcher.png, 02-rationale.png, 03-connect.png,
+# 04-oauth.png, 05-status.png, 06-notification.png, 07-sync.png.

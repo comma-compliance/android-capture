@@ -1,0 +1,22 @@
+<!--
+    Launcher foreground. A speech-bubble (messages) cradling a downward chevron
+    (archived / captured), with a comma tail that nods to the Comma Compliance
+    brand. Drawn white on the brand-green background within the 108dp adaptive
+    safe zone (the central ~66dp circle). The chevron is knocked out in the
+    brand-green background color. Distinct from any messaging-app palette.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Rounded speech bubble with a tail (a comma-like sweep at lower-left). -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M40,30h28a12,12 0,0 1,12 12v18a12,12 0,0 1,-12 12H49l-13,11 2,-11h2a12,12 0,0 1,-12 -12V42a12,12 0,0 1,12 -12z" />
+    <!-- Downward chevron inside the bubble: "captured / filed into the archive".
+         Knocked out in the brand-green background color so it reads as a cut-out. -->
+    <path
+        android:fillColor="@color/ic_launcher_background"
+        android:pathData="M45,46l9,9 9,-9 5,5 -14,14 -14,-14z" />
+</vector>

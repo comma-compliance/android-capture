@@ -1,0 +1,33 @@
+{
+  "_comment": "Inbound SMS. Anonymized from a real moto g capture. Direction from sms.type=1; date is epoch ms.",
+  "provider_id": "sms:2",
+  "event_type": "received",
+  "event_ts": 1779656022221,
+  "body_hash": "5d0fd7441ce2780577ac24f292db176cb99343ee4b7c17516536095addf68e2a",
+  "payload": {
+    "source": "sms",
+    "provider_id": "sms:2",
+    "thread_id": "2",
+    "thread_type": "one_to_one",
+    "direction": "incoming",
+    "timestamp_ms": 1779656022221,
+    "from": "+15555550111",
+    "to": ["+15555550100"],
+    "cc": [],
+    "participants": ["+15555550111", "+15555550100"],
+    "body": "Oh hey, is this coming in as the archive?",
+    "attachments": [],
+    "is_rcs": false,
+    "creator": "com.google.android.apps.messaging"
+  },
+  "expected": {
+    "message_type": "inbound",
+    "platform": "android_messages",
+    "thread_external_id": "2",
+    "sender": "+15555550111",
+    "recipients": ["+15555550100"],
+    "body": "Oh hey, is this coming in as the archive?",
+    "sent_at_ms": 1779656022221,
+    "has_attachments": false
+  }
+}

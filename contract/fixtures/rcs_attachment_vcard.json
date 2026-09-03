@@ -1,0 +1,44 @@
+{
+  "_comment": "Inbound RCS contact share (vCard). Surfaces as a content://mms/part with ct=text/x-vcard and a _data file path (the .vcf bytes are read via openInputStream, NOT inlined). No caption -> empty body.",
+  "provider_id": "mms:38",
+  "event_type": "received",
+  "event_ts": 1779672020000,
+  "body_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "payload": {
+    "source": "rcs",
+    "provider_id": "mms:38",
+    "thread_id": "2",
+    "thread_type": "one_to_one",
+    "direction": "incoming",
+    "timestamp_ms": 1779672020000,
+    "from": "+15555550111",
+    "to": ["+15555550100"],
+    "cc": [],
+    "participants": ["+15555550111", "+15555550100"],
+    "body": "",
+    "attachments": [
+      {
+        "part_id": "42",
+        "part_uri": "content://mms/part/42",
+        "content_type": "text/x-vcard",
+        "filename": "2610591480060212474.vcf",
+        "size_bytes": 7928,
+        "status": "pending"
+      }
+    ],
+    "is_rcs": true,
+    "creator": "com.google.android.apps.messaging"
+  },
+  "expected": {
+    "message_type": "inbound",
+    "platform": "android_messages",
+    "thread_external_id": "2",
+    "sender": "+15555550111",
+    "recipients": ["+15555550100"],
+    "body": "",
+    "sent_at_ms": 1779672020000,
+    "is_rcs": true,
+    "has_attachments": true,
+    "attachment_content_types": ["text/x-vcard"]
+  }
+}

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Read the Telephony provider (SMS/MMS/RCS rows the default messaging app persists). -->
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <!--
+        Resolve the saved display name for an address that already appears in a
+        captured message, so the archive shows contact names rather than bare
+        numbers. We never enumerate the address book - only addresses present in a
+        message are looked up (ContactsContract.PhoneLookup).
+
+        Grant path: this app is NOT the device-owner DPC; it never calls
+        DevicePolicyManager.setPermissionGrantState itself. On managed devices the
+        EMM provisioning policy auto-grants the app's manifest-declared dangerous
+        permissions via applications[].defaultPermissionPolicy = GRANT (see
+        docs/emm-managed-config.md), which covers READ_SMS today and now covers
+        READ_CONTACTS by the same mechanism - declaring it here is all that is
+        required for the silent grant on enrolled devices. On the user-authenticated
+        path the resolver simply returns no names if the runtime grant is absent;
+        capture never fails because contacts are unavailable.
+    -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <!--
+        READ_SMS/WRITE_SMS imply telephony hardware. Mark it not-required so the app
+        can still install on non-telephony devices (e.g. ChromeOS); the archiver
+        simply has nothing to capture there.
+    -->
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+    <!-- Required to run the archival work as a foreground service. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!--
+        Required for all network I/O: enrollment (EnrollmentClient) and batch
+        upload (Uploader opening HttpURLConnection). Normal install-time
+        permission; no runtime grant needed.
+    -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!--
+        Read connectivity state so first-run sign-in is gated on having a network
+        (and can auto-retry when one returns) instead of failing silently. Normal
+        install-time permission; no runtime grant needed.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--
+        Resume draining a pending upload/attachment backlog and re-arm the periodic
+        heartbeat after a reboot, without waiting for the next message broadcast.
+    -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application
+        android:name=".ArchiverApplication"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.CommaArchiver"
+        android:supportsRtl="true">
+
+        <!-- EMM-delivered managed configuration (backend_url, enrollment_token, backfill_days). -->
+        <meta-data
+            android:name="android.content.APP_RESTRICTIONS"
+            android:resource="@xml/app_restrictions" />
+
+        <!--
+            Sentry SDK auto-init. The DSN is stamped in at build time from the
+            ${sentryDsn} manifest placeholder (see app/build.gradle.kts). An empty
+            value leaves the SDK disabled - a graceful no-op - so builds made before
+            the DSN is provisioned ship clean. The reported release defaults to
+            applicationId@versionName+versionCode, matching the build's identity.
+        -->
+        <meta-data
+            android:name="io.sentry.dsn"
+            android:value="${sentryDsn}" />
+
+        <!--
+            Launcher entry point. Opens the permissions/privacy rationale, which
+            explains what is captured and why BEFORE requesting SMS access, then
+            forwards to onboarding (or straight to Status if already connected).
+        -->
+        <activity
+            android:name=".onboarding.PermissionRationaleActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- In-app organization sign-in + device registration. -->
+        <activity
+            android:name=".onboarding.OnboardingActivity"
+            android:exported="false" />
+
+        <!-- Connected-state Status/About screen. -->
+        <activity
+            android:name=".onboarding.StatusActivity"
+            android:exported="false" />
+
+        <!--
+            OAuth redirect catcher. AppAuth contributes its own
+            RedirectUriReceiverActivity (with just the private-use scheme filter)
+            via manifest merge; we REPLACE it (tools:node="replace") so the SAME
+            activity also catches a verified HTTPS App Link redirect.
+
+            Two intent-filters, both required:
+              (a) the private-use custom scheme - the baseline redirect, used when
+                  the server does not advertise an App Link URI (or its host does
+                  not match this build), and the destination the browser fallback
+                  page forwards to; AND
+              (b) an android:autoVerify HTTPS App Link for ${appLinkHost}
+                  /android/oauth2redirect - the preferred redirect when the server
+                  advertises a host-matching app_link_redirect_uri.
+
+            autoVerify makes the OS check the host's
+            /.well-known/assetlinks.json and, on success, deliver the HTTPS
+            redirect straight to this activity without a disambiguation prompt. If
+            verification has NOT (yet) succeeded on a given device, the HTTPS
+            redirect instead opens in the browser, where the server's fallback page
+            location.replace()s to the custom scheme - which filter (a) then
+            catches. Declaring BOTH is what makes that fallback land back in-app.
+
+            autoVerify is set explicitly: AppAuth's README override omits it, but
+            without it the OS never attempts App Link verification at all.
+        -->
+        <activity
+            android:name="net.openid.appauth.RedirectUriReceiverActivity"
+            android:exported="true"
+            tools:node="replace">
+            <!-- (a) Private-use scheme redirect (RFC 8252) + browser-fallback target. -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="com.commacompliance.archiver" />
+            </intent-filter>
+            <!-- (b) Verified HTTPS App Link redirect. -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="https"
+                    android:host="${appLinkHost}"
+                    android:path="/android/oauth2redirect" />
+            </intent-filter>
+        </activity>
+
+        <!--
+            Archival service. Started by an explicit broadcast from the default
+            messaging app on each message event. Gated by WRITE_SMS so only the
+            default SMS handler (which holds WRITE_SMS) can start it. Runs as a
+            shortService: it does only the cheap, must-happen-now read of the
+            Telephony delta, then stops; uploads happen out-of-band.
+        -->
+        <!-- tools:ignore SystemPermissionTypo: WRITE_SMS is a real platform
+             permission; lint misfires suggesting WRITE_OBB. Only the default SMS
+             handler holds WRITE_SMS, so gating the service on it ensures only that
+             app can start the archiver. -->
+        <service
+            android:name=".service.ArchivalService"
+            android:exported="true"
+            android:foregroundServiceType="shortService"
+            android:permission="android.permission.WRITE_SMS"
+            tools:ignore="SystemPermissionTypo">
+            <intent-filter>
+                <!--
+                    The broadcast may arrive under either the package-qualified or
+                    the bare action name; declare both so the filter matches
+                    regardless. (The sender may also start the service explicitly
+                    by component, in which case the filter is not consulted.)
+                -->
+                <action android:name="com.google.android.apps.messaging.GOOGLE_MESSAGES_ARCHIVAL_UPDATE" />
+                <action android:name="GOOGLE_MESSAGES_ARCHIVAL_UPDATE" />
+            </intent-filter>
+        </service>
+
+        <!--
+            Resumes the background upload/heartbeat drain after a reboot or an app
+            update. Enqueues network-gated WorkManager jobs only; does no heavy work
+            inline. Not exported beyond the system boot broadcast.
+        -->
+        <receiver
+            android:name=".service.BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>

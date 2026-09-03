@@ -1,0 +1,36 @@
+{
+  "_comment": "Inbound RCS location share - the attachment exception. The mms row's ct_t is application/vnd.gsma.rcspushlocation+xml (m_size=0), but the content is a text/plain part holding a Maps URL (no _data blob). So this normalizes as a BODY (the URL), not a binary attachment. URL/address anonymized.",
+  "provider_id": "mms:39",
+  "event_type": "received",
+  "event_ts": 1779672030000,
+  "body_hash": "f752db60469f5f5e685ff7f580ca08b353ebf8a9aece4446eac47fc3e60cfa40",
+  "payload": {
+    "source": "rcs",
+    "provider_id": "mms:39",
+    "thread_id": "2",
+    "thread_type": "one_to_one",
+    "direction": "incoming",
+    "timestamp_ms": 1779672030000,
+    "from": "+15555550111",
+    "to": ["+15555550100"],
+    "cc": [],
+    "participants": ["+15555550111", "+15555550100"],
+    "body": "https://www.google.com/maps/search/?api=1&query=1+Example+St++Anytown++CA+90001++USA",
+    "content_subtype": "application/vnd.gsma.rcspushlocation+xml",
+    "attachments": [],
+    "is_rcs": true,
+    "creator": "com.google.android.apps.messaging"
+  },
+  "expected": {
+    "message_type": "inbound",
+    "platform": "android_messages",
+    "thread_external_id": "2",
+    "sender": "+15555550111",
+    "recipients": ["+15555550100"],
+    "body": "https://www.google.com/maps/search/?api=1&query=1+Example+St++Anytown++CA+90001++USA",
+    "sent_at_ms": 1779672030000,
+    "is_rcs": true,
+    "has_attachments": false,
+    "note": "location share is captured as a text body (Maps URL), not a binary attachment"
+  }
+}

@@ -1,0 +1,100 @@
+name: Bug report
+description: Report a problem with the Comma Compliance Messages Archiver.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a report.
+
+        **NEVER paste message contents, recipient phone numbers/addresses, bearer
+        tokens, enrollment tokens, or any other private data into this issue.**
+        Describe behavior and redact anything sensitive. For suspected security
+        vulnerabilities, do not file here - email security@commacompliance.com
+        (see SECURITY.md).
+  - type: textarea
+    id: problem
+    validations:
+      required: true
+    attributes:
+      label: The problem
+      description: >-
+        Describe the issue. What were you trying to do, what did you expect, and
+        what happened instead? Provide a clear, concise description.
+  - type: textarea
+    id: steps
+    validations:
+      required: true
+    attributes:
+      label: Steps to reproduce
+      description: >-
+        List the exact steps. Remember to redact any private data.
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+  - type: markdown
+    attributes:
+      value: |
+        ## Environment
+  - type: input
+    id: device_model
+    validations:
+      required: true
+    attributes:
+      label: Device model
+      description: e.g. Pixel 8, Samsung Galaxy A54.
+  - type: input
+    id: android_version
+    validations:
+      required: true
+    attributes:
+      label: Android version
+      description: e.g. Android 14 (API 34).
+  - type: input
+    id: messages_build
+    validations:
+      required: true
+    attributes:
+      label: Google Messages build
+      description: >-
+        The installed Google Messages app version / build (Messages -> Settings
+        -> About). The archival broadcast only fires on sufficiently recent
+        builds.
+  - type: input
+    id: app_version
+    validations:
+      required: true
+    attributes:
+      label: Archiver app version
+      description: This app's version name / build (from the Status screen or app info).
+  - type: dropdown
+    id: connection_path
+    validations:
+      required: true
+    attributes:
+      label: How is the device connected to your organization?
+      options:
+        - Managed (EMM one-time enrollment token)
+        - Self-serve (in-app organizational sign-in)
+        - Not yet connected / unsure
+  - type: dropdown
+    id: emm
+    validations:
+      required: true
+    attributes:
+      label: EMM / management platform
+      description: Which EMM provisions this fully-managed device?
+      options:
+        - Microsoft Intune
+        - VMware Workspace ONE UEM
+        - Google managed configuration (Android Management API / managed Google Play)
+        - TestDPC (testing)
+        - Other / unsure
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional information
+      description: >-
+        Anything else that helps - logs (with private data removed), screenshots
+        (redacted), or screen recordings can be dragged into this field.

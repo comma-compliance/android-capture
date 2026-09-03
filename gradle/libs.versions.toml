@@ -1,0 +1,107 @@
+[versions]
+# AGP 8.11.x pairs with Gradle 8.13+ and supports compileSdk 36. JDK 17 required.
+# compileSdk 36 (Android 16) has a hard floor of AGP 8.9.1 - anything older fails
+# the build outright - so the Play targetSdk-36 deadline forces this bump. 8.11.1
+# is taken rather than the bare 8.9.1 floor because it is a matured stable release
+# on the same 8.x line, which keeps Kotlin/KSP/detekt unchanged; moving to AGP 9.x
+# would additionally force Gradle 9 and a Kotlin bump, which is a separate chore.
+agp = "8.11.1"
+kotlin = "2.0.21"
+ksp = "2.0.21-1.0.28"
+coreKtx = "1.13.1"
+appcompat = "1.7.0"
+workManager = "2.9.1"
+room = "2.6.1"
+# androidx.sqlite is a Room transitive, but the SQLCipher SupportOpenHelperFactory
+# is built against its SupportSQLite* surface, so pin it explicitly (1.4.0 pairs
+# with Room 2.6.1's bundled version) rather than inherit it implicitly.
+sqlite = "2.4.0"
+# SQLCipher for Android: BSD-3-Clause (Zetetic LLC), minSdk 23. Ships native
+# libsqlcipher .so per-ABI (~2-3 MB each); the AAB splits per-device so the
+# delivered install carries only one ABI.
+sqlcipher = "4.16.0"
+security = "1.1.0-alpha06"
+# lazysodium-android only publishes 5.0.x and 5.2.0; 5.2.0 it is for the app
+# (Android dexes to Java 8 bytecode regardless). lazysodium-java 5.2.0 is built
+# for Java 21, which the host JDK-17 test JVM cannot load, so unit tests use the
+# Java-8-bytecode 5.1.4 (identical box/keypair API for the calls used here).
+lazysodium = "5.2.0"
+jna = "5.17.0"
+lazysodiumJavaTest = "5.1.4"
+jnaTest = "5.12.1"
+junit = "4.13.2"
+androidxTestExtJunit = "1.2.1"
+androidxTestCore = "1.6.1"
+# Robolectric must ship an android-all runtime for the compiled SDK. 4.13 tops out
+# below API 36, so a compileSdk-36 unit test would fail to find a matching runtime;
+# 4.16.1 carries the Android 16 (API 36) runtime.
+robolectric = "4.16.1"
+mockito = "5.12.0"
+# AppAuth-Android drives the Authorization-Code + PKCE flow through a Chrome
+# Custom Tab (no embedded WebView), per RFC 8252.
+appauth = "0.11.1"
+# Play Integrity standard request API (StandardIntegrityManager). Licensed under
+# the Play Integrity API Terms of Service (Google proprietary, NOT Apache-2.0) -
+# recorded in the third-party notices. Used only to attest device/app integrity
+# at registration/enroll; the client degrades to a null token when Play services
+# are absent, so the dependency is never load-bearing for sign-in itself.
+playIntegrity = "1.6.0"
+material = "1.12.0"
+lifecycle = "2.8.7"
+coroutines = "1.8.1"
+# detekt 1.23.7 bundles Kotlin 1.9 analysis but parses Kotlin 2.0.21 sources fine
+# for the default ruleset (no type-resolution rules enabled here).
+detekt = "1.23.7"
+# Sentry Android Gradle plugin + SDK are a matched pair: plugin 6.12.0 bundles
+# (and auto-installs) SDK 8.44.0. The plugin needs AGP >= 7.0 (we run 8.7.3) and
+# supports Gradle's configuration cache (fixed on the 6.11.0+ line). SDK 8.x needs
+# minSdk 21 / compileSdk 34+ - we are minSdk 34 / compileSdk 36. JDK 17 is fine.
+sentry = "6.12.0"
+sentryAndroid = "8.44.0"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+appauth = { group = "net.openid", name = "appauth", version.ref = "appauth" }
+# Play Integrity standard-request client. Under Google's Play Integrity API ToS
+# (proprietary), distributable in the app binary but NOT open source.
+play-integrity = { group = "com.google.android.play", name = "integrity", version.ref = "playIntegrity" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workManager" }
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+# Explicit so the SQLCipher SupportOpenHelperFactory binds to a pinned SupportSQLite* surface.
+androidx-sqlite = { group = "androidx.sqlite", name = "sqlite", version.ref = "sqlite" }
+# At-rest encryption for the on-device event queue. SupportOpenHelperFactory plugs
+# into Room's openHelperFactory; System.loadLibrary("sqlcipher") loads the native.
+sqlcipher-android = { group = "net.zetetic", name = "sqlcipher-android", version.ref = "sqlcipher" }
+androidx-security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "security" }
+# NaCl box (Curve25519 + XSalsa20-Poly1305) to interop with the server's RbNaCl.
+# The -android artifact bundles native libsodium for device ABIs; the -java
+# artifact (test only) bundles desktop natives so the round-trip vector test runs
+# on the host JVM/Robolectric.
+lazysodium-android = { group = "com.goterl", name = "lazysodium-android", version.ref = "lazysodium" }
+lazysodium-java = { group = "com.goterl", name = "lazysodium-java", version.ref = "lazysodiumJavaTest" }
+jna = { group = "net.java.dev.jna", name = "jna", version.ref = "jna" }
+jna-test = { group = "net.java.dev.jna", name = "jna", version.ref = "jnaTest" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxTestExtJunit" }
+androidx-test-core = { group = "androidx.test", name = "core", version.ref = "androidxTestCore" }
+robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
+mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
+# Sentry Android SDK (crash + error reporting). Auto-init from the manifest DSN
+# meta-data; release defaults to applicationId@versionName+versionCode.
+sentry-android = { group = "io.sentry", name = "sentry-android", version.ref = "sentryAndroid" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+# Wires the Sentry SDK in and (when R8/minify is later enabled) uploads the
+# ProGuard mapping. With isMinifyEnabled = false there is no mapping to upload, so
+# the upload task is a no-op and the build never contacts the Sentry API.
+sentry = { id = "io.sentry.android.gradle", version.ref = "sentry" }

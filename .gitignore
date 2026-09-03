@@ -1,0 +1,14 @@
+/build
+**/build/
+.gradle/
+.kotlin/
+local.properties
+*.keystore
+*.jks
+.cxx/
+captures/
+*.apk
+*.aab
+
+# Contract-spike raw Telephony dumps - real message data, never commit
+spike/dumps/

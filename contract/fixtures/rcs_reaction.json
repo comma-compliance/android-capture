@@ -1,0 +1,35 @@
+{
+  "_comment": "RCS reaction/tapback. Arrives as an ordinary NEW inbound content://mms row (ct_cls=135) whose body is a synthesized localized string: '<emoji> to \"<quoted target text>\"' (the real device also wraps the emoji in zero-width spaces). It does NOT modify or structurally reference the target row, so it is classified as a normal received message. A processor may optionally pattern-match this body shape to attach it to the quoted message.",
+  "provider_id": "mms:19",
+  "event_type": "received",
+  "event_ts": 1779669913000,
+  "body_hash": "a05636d40bfe46fa0ea8b6b560d4215b409531a7a690fcbdf7ed178139ebf255",
+  "payload": {
+    "source": "rcs",
+    "provider_id": "mms:19",
+    "thread_id": "2",
+    "thread_type": "one_to_one",
+    "direction": "incoming",
+    "timestamp_ms": 1779669913000,
+    "from": "+15555550111",
+    "to": ["+15555550100"],
+    "cc": [],
+    "participants": ["+15555550111", "+15555550100"],
+    "body": "❤️ to \"Sounds good, see you then\"",
+    "is_reaction_synthesized_text": true,
+    "attachments": [],
+    "is_rcs": true,
+    "creator": "com.google.android.apps.messaging"
+  },
+  "expected": {
+    "message_type": "inbound",
+    "platform": "android_messages",
+    "thread_external_id": "2",
+    "sender": "+15555550111",
+    "recipients": ["+15555550100"],
+    "body": "❤️ to \"Sounds good, see you then\"",
+    "sent_at_ms": 1779669913000,
+    "is_rcs": true,
+    "note": "captured as a normal received message; not structured reaction metadata"
+  }
+}

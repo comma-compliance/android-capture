@@ -1,0 +1,44 @@
+{
+  "_comment": "Inbound RCS video (no caption -> empty body). Same content://mms/part + _data mechanism as image/audio; note the large size_bytes. body_hash is sha256 of the empty string.",
+  "provider_id": "mms:36",
+  "event_type": "received",
+  "event_ts": 1779671992000,
+  "body_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "payload": {
+    "source": "rcs",
+    "provider_id": "mms:36",
+    "thread_id": "2",
+    "thread_type": "one_to_one",
+    "direction": "incoming",
+    "timestamp_ms": 1779671992000,
+    "from": "+15555550111",
+    "to": ["+15555550100"],
+    "cc": [],
+    "participants": ["+15555550111", "+15555550100"],
+    "body": "",
+    "attachments": [
+      {
+        "part_id": "41",
+        "part_uri": "content://mms/part/41",
+        "content_type": "video/mp4",
+        "filename": "7880574017863692589.mp4",
+        "size_bytes": 2552210,
+        "status": "pending"
+      }
+    ],
+    "is_rcs": true,
+    "creator": "com.google.android.apps.messaging"
+  },
+  "expected": {
+    "message_type": "inbound",
+    "platform": "android_messages",
+    "thread_external_id": "2",
+    "sender": "+15555550111",
+    "recipients": ["+15555550100"],
+    "body": "",
+    "sent_at_ms": 1779671992000,
+    "is_rcs": true,
+    "has_attachments": true,
+    "attachment_content_types": ["video/mp4"]
+  }
+}

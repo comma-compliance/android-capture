@@ -1,0 +1,36 @@
+{
+  "_comment": "Inbound RCS group. content://mms ct_cls=135. Membership comes from per-message addr (137 From, 151 To, 130 Cc) - NOT the thread, whose recipient_ids is a single opaque '...@rcs.google.com' token (thread type=0).",
+  "provider_id": "mms:15",
+  "event_type": "received",
+  "event_ts": 1779669200000,
+  "body_hash": "2418feb55361973f4bfc763aeec38af498703126fc9bf837ab3fa8f92663da05",
+  "payload": {
+    "source": "rcs",
+    "provider_id": "mms:15",
+    "thread_id": "5",
+    "thread_type": "group",
+    "direction": "incoming",
+    "timestamp_ms": 1779669200000,
+    "from": "+15555550111",
+    "to": ["+15555550100"],
+    "cc": ["+15555550122"],
+    "participants": ["+15555550111", "+15555550100", "+15555550122"],
+    "rcs_group_token": "aaaabbbbccccddddeeeeffffgggghhhh@rcs.example.invalid",
+    "body": "Another group to ignore. This is test #3",
+    "attachments": [],
+    "is_rcs": true,
+    "creator": "com.google.android.apps.messaging"
+  },
+  "expected": {
+    "message_type": "inbound",
+    "platform": "android_messages",
+    "thread_external_id": "5",
+    "thread_is_group": true,
+    "sender": "+15555550111",
+    "recipients": ["+15555550100", "+15555550122"],
+    "body": "Another group to ignore. This is test #3",
+    "sent_at_ms": 1779669200000,
+    "is_rcs": true,
+    "membership_source": "per_message_addr_rows"
+  }
+}

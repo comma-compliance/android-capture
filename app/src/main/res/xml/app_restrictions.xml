@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Managed configuration schema. These values are set by the enterprise
+    administrator through the EMM (managed configuration / app restrictions);
+    they are NOT user-editable and are read at runtime via RestrictionsManager.
+      - backend_url:      base URL of the archival ingest server.
+      - enrollment_token: one-time bootstrap credential the device exchanges
+                          for a device-scoped archive token on first run.
+      - backfill_days:    how many days of existing messages to capture on first
+                          run (0 = forward-only). Optional; the server returns a
+                          policy at enroll time when this is unset.
+-->
+<restrictions xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <restriction
+        android:key="backend_url"
+        android:title="@string/restriction_backend_url_title"
+        android:description="@string/restriction_backend_url_desc"
+        android:restrictionType="string"
+        android:defaultValue="" />
+
+    <restriction
+        android:key="enrollment_token"
+        android:title="@string/restriction_enrollment_token_title"
+        android:description="@string/restriction_enrollment_token_desc"
+        android:restrictionType="string"
+        android:defaultValue="" />
+
+    <restriction
+        android:key="backfill_days"
+        android:title="@string/restriction_backfill_days_title"
+        android:description="@string/restriction_backfill_days_desc"
+        android:restrictionType="integer"
+        android:defaultValue="0" />
+
+</restrictions>

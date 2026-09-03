@@ -1,0 +1,44 @@
+{
+  "_comment": "Outbound MMS with image (real MMS, ct_cls NULL). msg_box=2, m_type=128 (M-Send.req). date in SECONDS normalized to ms (*1000). Caption text part + image part (+ SMIL). Fills the outbound-MMS gap alongside mms_received.",
+  "provider_id": "mms:11",
+  "event_type": "sent",
+  "event_ts": 1779665243000,
+  "body_hash": "78c53a850adc0fc6449b3cc39b0bc0035d9f9a9665d4c81be18f80a23a206874",
+  "payload": {
+    "source": "mms",
+    "provider_id": "mms:11",
+    "thread_id": "3",
+    "thread_type": "group",
+    "direction": "outgoing",
+    "timestamp_ms": 1779665243000,
+    "from": "+15555550100",
+    "to": ["+15555550111", "+15555550122"],
+    "cc": [],
+    "participants": ["+15555550100", "+15555550111", "+15555550122"],
+    "body": "Response with photo",
+    "attachments": [
+      {
+        "part_id": "15",
+        "part_uri": "content://mms/part/15",
+        "content_type": "image/jpeg",
+        "filename": "image000001.jpg",
+        "size_bytes": 199878,
+        "status": "pending"
+      }
+    ],
+    "is_rcs": false,
+    "creator": "com.google.android.apps.messaging"
+  },
+  "expected": {
+    "message_type": "outbound",
+    "platform": "android_messages",
+    "thread_external_id": "3",
+    "thread_is_group": true,
+    "sender": "+15555550100",
+    "recipients": ["+15555550111", "+15555550122"],
+    "body": "Response with photo",
+    "sent_at_ms": 1779665243000,
+    "has_attachments": true,
+    "attachment_content_types": ["image/jpeg"]
+  }
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Comma Compliance brand palette (mirrors the marketing design-system
+         tokens: brand-green #33a852 is the identity anchor, with the darker
+         ramp steps for chrome/contrast and ink slate for neutrals). Still
+         distinct from any messaging-app palette (WhatsApp #25D366, iMessage
+         blue, Signal blue), so the archiver is never mistaken for a chat app. -->
+    <color name="brand_green">#33A852</color>         <!-- brand-500, primary -->
+    <color name="brand_green_variant">#2A8B44</color> <!-- brand-600 -->
+    <color name="brand_green_dark">#236F37</color>    <!-- brand-700 -->
+    <color name="ink_900">#0F172A</color>             <!-- near-black text -->
+    <color name="ink_200">#E2E8F0</color>             <!-- hairline borders/dividers -->
+    <color name="ink_50">#F8FAFC</color>              <!-- app surface -->
+    <color name="white">#FFFFFF</color>
+
+    <!-- Launcher icon / onboarding-hero background: the brand-green anchor. -->
+    <color name="ic_launcher_background">#33A852</color>
+</resources>

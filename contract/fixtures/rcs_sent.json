@@ -1,0 +1,34 @@
+{
+  "_comment": "Outbound RCS 1:1 text. content://mms, msg_box=2, ct_cls=135. Sent RCS carries ct_t=multipart.related + a SMIL part; sender via addr 137 = device.",
+  "provider_id": "mms:13",
+  "event_type": "sent",
+  "event_ts": 1779669024000,
+  "body_hash": "93962d85116682db17c3d17755f7a6c7c3c63524cf561be02ece6d017bd4a149",
+  "payload": {
+    "source": "rcs",
+    "provider_id": "mms:13",
+    "thread_id": "2",
+    "thread_type": "one_to_one",
+    "direction": "outgoing",
+    "timestamp_ms": 1779669024000,
+    "from": "+15555550100",
+    "to": ["+15555550111"],
+    "cc": [],
+    "participants": ["+15555550100", "+15555550111"],
+    "body": "Reply from moto",
+    "attachments": [],
+    "is_rcs": true,
+    "creator": "com.google.android.apps.messaging"
+  },
+  "expected": {
+    "message_type": "outbound",
+    "platform": "android_messages",
+    "thread_external_id": "2",
+    "sender": "+15555550100",
+    "recipients": ["+15555550111"],
+    "body": "Reply from moto",
+    "sent_at_ms": 1779669024000,
+    "is_rcs": true,
+    "has_attachments": false
+  }
+}
